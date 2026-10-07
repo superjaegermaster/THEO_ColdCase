@@ -6,7 +6,7 @@ Jeu d'enquête criminelle interactif en français. Explorez le téléphone de vo
 👉 [**Lancer le jeu**](https://superjaegermaster.github.io/THEO_ColdCase/)
 
 ## Développement
-Fichier unique autonome (HTML/CSS/JS), aucune dépendance, fonctionne hors-ligne avec repli vectoriel de haute qualité pour les images.
+Fichier unique autonome (HTML/CSS/JS), aucune dépendance, fonctionne hors-ligne.
 
 ## Licence
 Tous droits réservés.
