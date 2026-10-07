@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- THÉO : LA DERNIÈRE SÉANCE — build 5 (08/10/2026) -->
+<!-- THÉO : LA DERNIÈRE SÉANCE — build 7 (09/10/2026) -->
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -124,10 +124,10 @@ textarea#journal{width:100%;min-height:190px;background:#0c1220;border:1px solid
   <div class="phone">
     <div class="notch"></div>
     <div class="screen">
-      <div class="statusbar"><span>OSERA</span><span id="sbtime">21:07</span><span>🔋 62 %</span></div>
+      <div class="statusbar"><span>TGCOM</span><span id="sbtime">21:07</span><span>🔋 62 %</span></div>
       <div class="homescreen">
         <div class="appgrid" id="appgrid"></div>
-        <div style="text-align:center;color:rgba(255,255,255,.35);font-size:11px;margin-top:14px">Téléphone de Théo Vasseur — scellé n° 447 · remis à la famille · <span class="buildtag" style="font-family:monospace"></span></div>
+        <div style="text-align:center;color:rgba(255,255,255,.35);font-size:11px;margin-top:14px">Téléphone de Théo Vasseur — scellé n° 447 · remis à la famille</div>
         <div class="dock" id="dock"></div>
       </div>
       <div class="appview" id="appview"></div>
@@ -163,17 +163,18 @@ textarea#journal{width:100%;min-height:190px;background:#0c1220;border:1px solid
   <div class="sub">LA DERNIÈRE SÉANCE</div>
   <div id="islides"><p></p></div>
   <button class="btn primary" id="inext" data-action="slide-next">Continuer</button>
+  <div id="intro-build" style="font-family:monospace;font-size:12px;color:#8b98ad;margin-top:16px;letter-spacing:1px"></div>
 </div>
 <div id="modalroot"></div>
 <script>
 "use strict";
-var BUILD=5;var BUILD_DATE="08/10/2026";
+var BUILD=7;var BUILD_DATE="08/10/2026";
 var CATNAMES={mobile:"Mobile",opportunite:"Opportunité",chrono:"Chronologie",relation:"Relation",contradiction:"Contradiction",localisation:"Localisation",preuve:"Preuve numérique",temoignage:"Témoignage"};
 var PEOPLE={awa:{name:"Awa",color:"#e5484d",fact:"Yoga — mardi 19 h"},emma:{name:"Emma",color:"#3fae6a",fact:"Brunch du dimanche"},sarah:{name:"Sarah",color:"#8957e5",fact:"Yoga — mardi 19 h"},camille:{name:"Camille",color:"#5b8cff",fact:"Yoga — mardi 19 h"},lea:{name:"Léa",color:"#f0883e",fact:"Yoga — mardi 19 h"},manon:{name:"Manon",color:"#d669bc",fact:"Yoga — mardi 19 h"},julie:{name:"Julie",color:"#f0b34e",fact:"Yoga — mardi 19 h"},nina:{name:"Nina",color:"#58c4dd",fact:"Yoga — mardi 19 h"},clara:{name:"Clara",color:"#8fe0ac",fact:"Yoga — mardi 19 h"},alice:{name:"Alice",color:"#9aa7bf",fact:"Yoga — mardi 19 h"},groupe:{name:"Groupe yoga",color:"#3b6ea8",fact:"Discussion de groupe"},studio:{name:"Studio Asana",color:"#c9a86a",fact:"Studio de yoga — 12 rue des Lilas"}};
 function ev(id,cat,who,ts,time,label,desc){return{id:id,cat:cat,who:who,ts:ts,time:time,label:label,desc:desc};}
 var IMG_EXT=["jpg","jpeg","png","webp"];var IMG_IDS=["p1","p2","p4","p5","p6","p7","p8"];
 var MIME={jpg:"image/jpeg",jpeg:"image/jpeg",png:"image/png",webp:"image/webp"};
-function imgSrcs(id){var a=[];for(var i=0;i<IMG_EXT.length;i++){a.push("images/"+id+"."+IMG_EXT[i]);}return a.join("|");}
+function imgSrcs(id){var a=[];a.push(id+".png");a.push("images/"+id+".png");for(var i=0;i<IMG_EXT.length;i++){if(IMG_EXT[i]!=="png"){a.push(id+"."+IMG_EXT[i]);a.push("images/"+id+"."+IMG_EXT[i]);}}return a.join("|");}
 function imgTag(id,cap,extra){return '<img class="pimg" data-srcs="'+imgSrcs(id)+'" src="images/'+id+'.jpg" alt="'+cap+'" '+(extra||"")+'>';}
 function fig(x,cy,c){return '<circle cx="'+x+'" cy="'+cy+'" r="10" fill="'+c+'"/><path d="M'+(x-10)+' '+(cy+14)+' Q'+x+' '+(cy+8)+' '+(x+10)+' '+(cy+14)+' L'+(x+14)+' '+(cy+68)+' Q'+x+' '+(cy+74)+' '+(x-14)+' '+(cy+68)+' Z" fill="'+c+'"/><rect x="'+(x-9)+'" y="'+(cy+68)+'" width="8" height="36" rx="4" fill="'+c+'"/><rect x="'+(x+1)+'" y="'+(cy+68)+'" width="8" height="36" rx="4" fill="'+c+'"/>';}
 var PHOTO_ART={};
@@ -347,7 +348,7 @@ function resetDemo(){if(confirm("Réinitialiser toute la progression de la démo
 document.addEventListener("click",function(e){var el=e.target.closest("[data-action]");if(!el)return;var act=el.getAttribute("data-action");var id=el.getAttribute("data-id")||"";if(act==="slide-next")nextSlide();else if(act==="go-home")goHome();else if(act==="open-app")openAppClick(id);else if(act==="teaser")toast("🔒 Disponible au chapitre suivant.");else if(act==="open-convo")openConvo(id);else if(act==="back-convos"){openApp("messages");}else if(act==="add-ev")addEv(id);else if(act==="open-photo")openPhoto(id);else if(act==="close-viewer"){var v=$("#viewer");if(v)v.remove();}else if(act==="find-hotspot")findHotspot(id,parseInt(el.getAttribute("data-idx")||"0",10));else if(act==="lock-form")renderLockForm();else if(act==="try-code")tryCode();else if(act==="toggle-hyp")toggleHyp(parseInt(id,10));else if(act==="show-tab")showTab(el.getAttribute("data-tab"));else if(act==="open-help")openHelp();else if(act==="give-hint")giveHint(parseInt(el.getAttribute("data-level"),10));else if(act==="close-modal")closeModal();else if(act==="demo-end")showDemoEnd();else if(act==="open-board")openBoard();else if(act==="close-board")closeBoard();else if(act==="reset-demo")resetDemo();});
 document.addEventListener("click",function(e){if(e.target&&e.target.id==="modalbg")closeModal();});
 document.addEventListener("error",function(e){var im=e.target;if(!im||im.tagName!=="IMG"||!im.classList||!im.classList.contains("pimg"))return;var list=(im.getAttribute("data-srcs")||"").split("|");var i=parseInt(im.getAttribute("data-i")||"0",10)+1;if(i<list.length){im.setAttribute("data-i",String(i));im.src=list[i];}else{im.style.display="none";}},true);
-function init(){document.querySelectorAll(".buildtag").forEach(function(el){el.textContent="build "+BUILD+" · "+BUILD_DATE;});document.title="THÉO : La dernière séance — build "+BUILD+" · "+BUILD_DATE;var resumed=load();var j=$("#journal");j.value=state.journal||"";j.addEventListener("input",function(){state.journal=j.value;save();});if(state.chapter>=2)$("#chaplabel").textContent="CHAPITRE 2 — AWA";renderHome();renderBoard();refreshEvButtons();if(state.introSeen){$("#intro").style.display="none";if(resumed)toast("▶ Partie reprise. Bonne enquête.");}else{renderSlide();}if(window.innerWidth>1020){$("#boardclose").style.display="none";}var t=new Date();$("#sbtime").textContent=String(t.getHours()).padStart(2,"0")+":"+String(t.getMinutes()).padStart(2,"0");}
+function init(){var ib=document.getElementById("intro-build");if(ib)ib.textContent="build "+BUILD+" · "+BUILD_DATE;var resumed=load();var j=$("#journal");j.value=state.journal||"";j.addEventListener("input",function(){state.journal=j.value;save();});if(state.chapter>=2)$("#chaplabel").textContent="CHAPITRE 2 — AWA";renderHome();renderBoard();refreshEvButtons();if(state.introSeen){$("#intro").style.display="none";if(resumed)toast("▶ Partie reprise. Bonne enquête.");}else{renderSlide();}if(window.innerWidth>1020){$("#boardclose").style.display="none";}var t=new Date();$("#sbtime").textContent=String(t.getHours()).padStart(2,"0")+":"+String(t.getMinutes()).padStart(2,"0");}
 try{init();}catch(err){console.error("Erreur d'initialisation :",err);}
 </script>
 </body>
